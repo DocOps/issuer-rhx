@@ -1,0 +1,101 @@
+// tag::globals[]
+:issuer_vrsn: 0.3.0
+:releasehx_vrsn: 0.1.2
+// end::globals[]
+= Issuer + ReleaseHx Combined Docker Image
+
+This repository contains the `Dockerfile` and build scripts to create the `docopslab/issuer-rhx` combined Docker image.
+
+// tag::description[]
+This image provides both the `issuer` (v{issuer_vrsn}) and `rhx` (v{releasehx_vrsn}) command-line tools in a single, convenient package.
+// end::description[]
+
+The current version tag is `v{issuer_vrsn}-{releasehx_vrsn}`.
+
+
+== Usage
+
+=== Prerequisites
+
+link:https://docs.docker.com/desktop/setup/install/mac-install/[Docker Desktop on MacOs] or link:https://docs.docker.com/desktop/setup/install/windows-install/[Docker Desktop with WSL2 backend on Windows], or link:https://docs.docker.com/engine/install/[Docker Engine on Linux].
+
+To use the pre-built image from DockerHub, pull it:
+
+[.prompt]
+ docker pull docopslab/issuer-rhx:latest
+
+Then, you can run either tool by specifying it as the command in your `docker run` execution.
+
+// tag::usage[]
+....
+docker run [options] docopslab/issuer-rhx COMMAND [arguments]
+....
+// end::usage[]
+
+It is recommended that you:
+
+* Run the container in interactive mode (`-it`).
+* Remove the container after it exits (`--rm`).
+* Run as your current user to avoid permission issues (`--user $(id -u):$(id -g)`).
+* Mount your current working directory into the container at `/workdir`. +
+Use: `-v $(pwd):/workdir`
+* Pass any API environment variable to the container under a standardized or configured name.
+
+// tag::examples[]
+=== Running Issuer
+
+[.prompt]
+ docker run -it --rm --user $(id -u):$(id -g) -v $(pwd):/workdir -e GITHUB_TOKEN=$GITHUB_TOKEN docopslab/issuer-rhx issuer your-issues.yml --dry
+
+=== Running ReleaseHx
+
+[.prompt]
+ docker run -it --rm --user $(id -u):$(id -g) -v $(pwd):/workdir -e GITHUB_TOKEN=$GITHUB_TOKEN docopslab/issuer-rhx rhx 1.0.0 --check
+
+// end::examples[]
+
+=== Recommended Aliases
+// tag::aliases[]
+For a more seamless experience, you can add aliases to your shell configuration file (e.g., `~/.bashrc` or `~/.zshrc`):
+
+[source,sh]
+----
+alias issuer='docker run -it --rm --user $(id -u):$(id -g) -v $(pwd):/workdir -e GITHUB_TOKEN=$GITHUB_TOKEN docopslab/issuer-rhx issuer'
+alias rhx='docker run -it --rm --user $(id -u):$(id -g) -v $(pwd):/workdir -e GITHUB_TOKEN=$GITHUB_TOKEN docopslab/issuer-rhx rhx'
+----
+// end::aliases[]
+
+
+== Building the Image
+
+To build the image yourself, clone this repository and use the provided build script.
+
+=== Build from Remote Images (Default)
+
+This will pull the latest `docopslab/issuer` and `docopslab/releasehx` images from DockerHub and combine them.
+
+[.prompt]
+ ./build.sh
+
+=== Build from Local Images
+
+If you have built the `docopslab/issuer` and `docopslab/releasehx` images locally, you can use them as the source.
+
+[.prompt]
+ ./build.sh --source local
+
+=== Version Detection
+
+The build script automatically detects versions from the upstream images (by reading their `org.opencontainers.image.version` labels) and tags the combined image accordingly.
+
+For example, if Issuer is 0.3.0 and ReleaseHx is 0.1.2, the build creates:
+
+* `docopslab/issuer-rhx:latest`
+* `docopslab/issuer-rhx:0.3.0-0.1.2`
+
+**Note:** If version detection fails, you may need to manually tag the image. See the build script output for instructions.
+
+
+== Development
+
+This section is for developers _working on this (issuer-rhx) project_ to build and maintain the Docker image.

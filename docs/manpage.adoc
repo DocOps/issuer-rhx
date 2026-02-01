@@ -1,0 +1,22 @@
+= issuer-rhx(1)
+:doctype: manpage
+
+== NAME
+
+issuer-rhx - Combined Docker image for the Issuer and ReleaseHx tools.
+
+== SYNOPSIS
+
+include::../README.adoc[tag=usage]
+
+== DESCRIPTION
+
+include::../README.adoc[tag=description]
+
+== EXAMPLES
+
+include::../README.adoc[tag=examples]
+
+== ALIASES
+
+include::../README.adoc[tag=aliases]

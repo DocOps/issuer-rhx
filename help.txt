@@ -1,0 +1,13 @@
+DocOps Lab - Combined Issuer and ReleaseHx Image
+
+Usage: docker run --user $(id -u):$(id -g) [...] docopslab/issuer-rhx <command> [args]
+
+This image contains two tools. You must specify which one you want to run.
+
+Commands:
+  issuer        Execute the Issuer CLI.
+  rhx           Execute the ReleaseHx CLI.
+
+Examples:
+  docker run -it --rm --user $(id -u):$(id -g) docopslab/issuer-rhx issuer --help
+  docker run -it --rm --user $(id -u):$(id -g) docopslab/issuer-rhx rhx --version
