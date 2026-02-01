@@ -1,0 +1,27 @@
+# Generated manpage (created by rake manpage)
+docs/issuer-rhx.1
+
+# Bundler artifacts
+vendor/
+.bundle/
+
+# Build artifacts  
+*.gem
+pkg/
+*.log
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Editor artifacts
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Temp Dev Paths
+.agent/
+.warp/
+tmp/
